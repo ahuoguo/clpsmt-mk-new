@@ -58,6 +58,8 @@ jobs:
         chez --version
         z3 --version
         cvc5 --version
+    
+    - name: Verify installations
       if: runner.os == 'Linux'
       run: |
         scheme --version
@@ -67,7 +69,9 @@ jobs:
     - name: Run CLPSMT tests on z3
       if: runner.os == 'macOS'
       run: |
-        time chez --script tests/z3-test.scm 
+        time chez --script tests/z3-test.scm
+    
+    - name: Run CLPSMT tests on z3
       if: runner.os == 'Linux'
       run: |
         time scheme --script tests/z3-test.scm
@@ -76,6 +80,8 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         time chez --script tests/cvc5-test.scm
+      
+    - name: Run CLPSMT tests on cvc5
       if: runner.os == 'Linux'
       run: |
         time scheme --script tests/cvc5-test.scm   
