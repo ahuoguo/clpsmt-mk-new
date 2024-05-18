@@ -1,0 +1,64 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Chez Scheme
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y chezscheme
+
+    - name: Set up Chez Scheme
+      if: runner.os == 'macOS'
+      run: |
+        brew install chezscheme
+
+    - name: Set up Z3
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y z3
+
+    - name: Set up Z3
+      if: runner.os == 'macOS'
+      run: |
+        brew install z3
+
+    - name: Set up CVC5
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake git
+        git clone https://github.com/cvc5/cvc5.git
+        cd cvc5
+        cmake -S . -B build
+        cmake --build build
+        sudo cmake --install build
+
+    - name: Set up CVC5
+      if: runner.os == 'macOS'
+      run: |
+        brew install cmake
+        git clone https://github.com/cvc5/cvc5.git
+        cd cvc5
+        cmake -S . -B build
+        cmake --build build
+        sudo cmake --install build
+
+    - name: Verify installations
+      run: |
+        chez --version
+        z3 --version
+        cvc5 --version
