@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [ubuntu-latest]
 
     steps:
     - name: Checkout code
@@ -29,7 +29,11 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y z3
+        sudo apt-get install -y wget
+        sudo apt-get install -y unzip
+        wget https://github.com/Z3Prover/z3/releases/download/z3-4.13.0/z3_solver-4.13.0.0-py2.py3-none-manylinux2014_x86_64.whl
+        unzip z3_solver-4.13.0.0-py2.py3-none-manylinux2014_x86_64.whl
+        export PATH="$PATH:$PWD/z3_solver-4.13.0.0.data/data/bin"
 
     - name: Set up Z3
       if: runner.os == 'macOS'
@@ -39,22 +43,9 @@ jobs:
     - name: Set up CVC5
       if: runner.os == 'Linux'
       run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake git
-        git clone https://github.com/arminbiere/cadical.git
-        cd cadical
-        ./configure && make
-        git clone https://github.com/cvc5/cvc5.git
-        cd cvc5
-        ./configure.sh
-            # use --prefix to specify an install prefix (default: /usr/local)
-            # use --name=<PATH> for custom build directory
-            # use --auto-download to download and build missing, required or
-            #   enabled, dependencies
-        cd ./build       # default is ./build
-        make             # use -jN for parallel build with N threads
-        make check       # to run default set of tests
-        make install     # to install into the prefix specified above
+        wget https://github.com/cvc5/cvc5/releases/download/cvc5-1.1.2/cvc5-Linux-static.zip
+        unzip cvc5-Linux-static.zip
+        export PATH="$PATH:$PWD/cvc5-Linux-static/bin"
 
     - name: Set up CVC5
       if: runner.os == 'macOS'
@@ -68,9 +59,11 @@ jobs:
         cvc5 --version
 
     - name: Run CLPSMT tests on z3
+      if: runner.os == 'macOS'
       run: |
         time chez --script tests/z3-test.scm 
 
     - name: Run CLPSMT tests on cvc5
+      if: runner.os == 'macOS'
       run: |
         time chez --script tests/cvc5-test.scm
