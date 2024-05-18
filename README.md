@@ -4,13 +4,15 @@ The numerous repos for minikanren with SMT are dazzling. This repo tries to docu
 
 ## Requirements
 
-`z3` (I tested this with z3 4.11.0), need to add `z3` to PATH. 
+`z3` (I tested this with z3 4.11.0 & 4.13.0), need to add `z3` to PATH. 
 
-I tested with Chez Scheme (9.9.9-pre-release.22)
+I tested with Chez Scheme.
 
 ## Running
 
 ### Usage
+
+Open Chez Scheme REPL do the following:
 
 ```scheme
 (load "mk.scm")
@@ -28,9 +30,7 @@ You can also load `talk.scm` to see more tests.
 
 ### TODO
 
-- currently I used the `mk-vicare.scm` `mk.scm` `smt.scm` from the faster minikanren `smt` branch, but the `mk.scm` in clpsmt-minikanren might also just do the work (but slower), might wanna experiment with that
-
-- Maybe a cvc5 driver?
+- currently I used the `mk-vicare.scm` `mk.scm` `smt.scm` from the faster minikanren `smt` branch, but `mk.scm` in clpsmt-minikanren and others might also just do the work (but slower), might wanna experiment with those (probably also have something uniform to compare run time stats).
 
 ## Repos
 
