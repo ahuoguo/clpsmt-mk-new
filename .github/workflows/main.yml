@@ -63,8 +63,8 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         scheme --version
-        z3 --version
         cvc5 --version
+        z3 --version
 
     - name: Run CLPSMT tests on z3
       if: runner.os == 'macOS'
