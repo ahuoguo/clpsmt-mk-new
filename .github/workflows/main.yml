@@ -25,6 +25,8 @@ jobs:
       run: |
         brew install chezscheme
 
+    ## using `apt-get install -y z3` installs an older version of Z3
+    ## and they have differnt text layout for `(get-model)`
     - name: Set up Z3
       if: runner.os == 'Linux'
       run: |

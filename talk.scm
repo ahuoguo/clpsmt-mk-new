@@ -244,7 +244,6 @@
 ;;            720))
 ;;   '(6))
 
-;; cvc5 failure: can't read -1
 (test "symbolic-execution-2a"
   (run 10 (q)
     (evalo

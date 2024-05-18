@@ -32,6 +32,12 @@ You can also load `talk.scm` to see more tests.
 
 - currently I used the `mk-vicare.scm` `mk.scm` `smt.scm` from the faster minikanren `smt` branch, but `mk.scm` in clpsmt-minikanren and others might also just do the work (but slower), might wanna experiment with those (probably also have something uniform to compare run time stats).
 
+- have a racket wrapper? I seems to have better support for timeouts. I commented out some tests in `talk.scm` since cvc5 will timeout on those examples. (commented with "cvc5 too slow")
+
+- include more tests. The Rosette repo has some good ones
+
+- For getting cvc5 in github workflow, maybe download release package instead of `brew install` to prevent wasting time on installation.
+
 ## Repos
 
 This issue https://github.com/namin/clpsmt-miniKanren/issues/9
