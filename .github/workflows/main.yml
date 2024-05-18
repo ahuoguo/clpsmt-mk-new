@@ -33,7 +33,7 @@ jobs:
         sudo apt-get install -y unzip
         wget https://github.com/Z3Prover/z3/releases/download/z3-4.13.0/z3_solver-4.13.0.0-py2.py3-none-manylinux2014_x86_64.whl
         unzip z3_solver-4.13.0.0-py2.py3-none-manylinux2014_x86_64.whl
-        export PATH="$PWD/z3_solver-4.13.0.0.data/data/bin:$PATH"
+        echo "$PWD/z3_solver-4.13.0.0.data/data/bin" >> $GITHUB_PATH
 
     - name: Set up Z3
       if: runner.os == 'macOS'
