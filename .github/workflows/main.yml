@@ -69,8 +69,8 @@ jobs:
 
     - name: Run CLPSMT tests on z3
       run: |
-        time scheme --script tests/z3-test.scm 
+        time chez --script tests/z3-test.scm 
 
     - name: Run CLPSMT tests on cvc5
       run: |
-        time scheme --script tests/cvc5-test.scm
+        time chez --script tests/cvc5-test.scm
