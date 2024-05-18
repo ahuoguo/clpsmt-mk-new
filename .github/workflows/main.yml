@@ -50,7 +50,7 @@ jobs:
     - name: Set up CVC5
       if: runner.os == 'macOS'
       run: |
-        brew install brew install cvc5/homebrew-cvc5/cvc5
+        brew install cvc5/homebrew-cvc5/cvc5
 
     - name: Verify installations
       run: |
