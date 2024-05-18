@@ -41,6 +41,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential cmake git
+        git clone https://github.com/arminbiere/cadical.git
+        cd cadical
+        ./configure && make
         git clone https://github.com/cvc5/cvc5.git
         cd cvc5
         ./configure.sh
