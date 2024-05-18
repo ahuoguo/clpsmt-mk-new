@@ -39,7 +39,7 @@
     ((a b c d) (e))
     ((a b c d e) ())))
 
-(load "../clpsmt-miniKanren/full-interp-quine.scm")
+(load "kanren+/full-interp-quine.scm")
 
 (test "evalo-append-forward"
   (run* (q)
@@ -201,7 +201,7 @@
 ;;     (facto q 720))
 ;;   '(6))
 
-(load "../clpsmt-miniKanren/full-interp.scm")
+(load "kanren+/full-interp.scm")
 
 (test "evalo-1"
   (run* (q)
@@ -280,7 +280,7 @@
      (lambda (x) (* 2 x))
      (lambda (x) (* x 2))))
 
-(load "../clpsmt-miniKanren/while-abort.scm")
+(load "kanren+/while-abort.scm")
 
 ;;; The following example is adapted from:
 ;;;
