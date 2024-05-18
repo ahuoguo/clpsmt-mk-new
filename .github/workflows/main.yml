@@ -33,7 +33,7 @@ jobs:
         sudo apt-get install -y unzip
         wget https://github.com/Z3Prover/z3/releases/download/z3-4.13.0/z3_solver-4.13.0.0-py2.py3-none-manylinux2014_x86_64.whl
         unzip z3_solver-4.13.0.0-py2.py3-none-manylinux2014_x86_64.whl
-        export PATH="$PATH:$PWD/z3_solver-4.13.0.0.data/data/bin"
+        export PATH="$PWD/z3_solver-4.13.0.0.data/data/bin:$PATH"
 
     - name: Set up Z3
       if: runner.os == 'macOS'
@@ -45,7 +45,7 @@ jobs:
       run: |
         wget https://github.com/cvc5/cvc5/releases/download/cvc5-1.1.2/cvc5-Linux-static.zip
         unzip cvc5-Linux-static.zip
-        export PATH="$PATH:$PWD/cvc5-Linux-static/bin"
+        export PATH="$PWD/cvc5-Linux-static/bin:$PATH"
 
     - name: Set up CVC5
       if: runner.os == 'macOS'
