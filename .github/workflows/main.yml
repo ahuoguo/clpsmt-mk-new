@@ -50,12 +50,7 @@ jobs:
     - name: Set up CVC5
       if: runner.os == 'macOS'
       run: |
-        brew install cmake
-        git clone https://github.com/cvc5/cvc5.git
-        cd cvc5
-        cmake -S . -B build
-        cmake --build build
-        sudo cmake --install build
+        brew install cvc5
 
     - name: Verify installations
       run: |
