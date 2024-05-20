@@ -49,10 +49,13 @@ jobs:
         unzip cvc5-Linux-static.zip
         echo "$PWD/cvc5-Linux-static/bin" >> $GITHUB_PATH
 
+    # macos latests by default is arm-based
     - name: Set up CVC5
       if: runner.os == 'macOS'
       run: |
-        brew install cvc5/homebrew-cvc5/cvc5
+        wget https://github.com/cvc5/cvc5/releases/download/cvc5-1.1.2/cvc5-macOS-arm64-static.zip
+        unzip cvc5-macOS-arm64-static.zip
+        echo "$PWD/cvc5-macOS-arm64-static/bin" >> $GITHUB_PATH
 
     - name: Verify installations
       if: runner.os == 'macOS'
