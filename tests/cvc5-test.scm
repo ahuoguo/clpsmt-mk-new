@@ -4,4 +4,9 @@
 (load "smt.scm")
 (load "cvc5-driver.scm")
 (load "test-check.scm")
-(load "talk.scm")
+
+(load "tests/talk.scm")
+(load "tests/radi-tests.scm")
+(load "tests/radiw-concrete-tests.scm")
+(load "tests/rsa.scm")
+(load "tests/property-based-synthesis-tests.scm")

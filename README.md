@@ -30,13 +30,15 @@ You can also load `talk.scm` to see more tests.
 
 ### TODO
 
-- currently I used the `mk-vicare.scm` `mk.scm` `smt.scm` from the faster minikanren `smt` branch, but `mk.scm` in clpsmt-minikanren and others might also just do the work (but slower), might wanna experiment with those (probably also have something uniform to compare run time stats).
+- currently I used the `mk-vicare.scm` `mk.scm` `smt.scm` from the faster minikanren `smt` branch, but `mk.scm` in clpsmt-minikanren and the `smt-assumptoin` branches using `check-sat-assuming` might also do the work (and might be faster). Experiment with those (probably also have something uniform to compare run time stats).
 
 - have a racket wrapper? I seems to have better support for timeouts. I commented out some tests in `talk.scm` since cvc5 will timeout on those examples. (commented with "cvc5 too slow")
 
-- include more tests. The Rosette repo has some good ones
+- include/document more tests. The Rosette repo has some good ones. Barliman also have some use cases for synthesis (see the branches with `smt`)
 
-- For getting cvc5 in github workflow, maybe download release package instead of `brew install` to prevent wasting time on installation.
+- For getting cvc5 (macos) in github workflow, maybe download release package instead of `brew install` to prevent wasting time on installation.
+
+- For future directions, Nada made [a nice list of future directions](https://github.com/namin/clpsmt-miniKanren/issues/9#issuecomment-893659453)
 
 ## Repos
 
