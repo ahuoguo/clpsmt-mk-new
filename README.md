@@ -17,6 +17,7 @@ Open Chez Scheme REPL do the following:
 ```scheme
 (load "mk.scm")
 (load "smt.scm")
+(load "z3-driver.scm")  ;; or (load "cvc5-driver.scm")
 (load "test-check.scm")
 
 (test "basic-1"
@@ -35,8 +36,6 @@ You can also load `talk.scm` to see more tests.
 - have a racket wrapper? I seems to have better support for timeouts. I commented out some tests in `talk.scm` since cvc5 will timeout on those examples. (commented with "cvc5 too slow")
 
 - include/document more tests. The Rosette repo has some good ones. Barliman also have some use cases for synthesis (see the branches with `smt`)
-
-- For getting cvc5 (macos) in github workflow, maybe download release package instead of `brew install` to prevent wasting time on installation.
 
 - For future directions, Nada made [a nice list of future directions](https://github.com/namin/clpsmt-miniKanren/issues/9#issuecomment-893659453)
 
