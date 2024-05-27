@@ -6,6 +6,9 @@
 (define int 
   (lambda (n) n))
 
+(define build-num 
+  (lambda (n) n))
+
 (define <o
   (lambda (n m)
     (z/assert `(< ,n ,m))))
@@ -14,6 +17,21 @@
   (lambda (n m)
     (z/assert `(<= ,n ,m))))
 
+;; n - m = k
+(define minuso 
+  (lambda (n m k)
+  (z/assert `(= (- ,n ,m) ,k))))
+
+;; n - m = k
+(define pluso 
+  (lambda (n m k)
+  (z/assert `(= (+ ,n ,m) ,k))))
+
+(define maxo
+  (lambda (x y z)
+    (conde
+      [(<o x y) (== z y)]
+      [(<=o y x) (== z x)])))
 
 (set! allow-incomplete-search? #t)
 
@@ -109,19 +127,19 @@ bexp := true | false
              (== q p^)]))]
    [(fresh (x)
            (conde
-            [(== p `(+ (int ()) (int ,x)))
-             (== q `(int ,x))]
-            [(== p `(+ (int ,x) (int ())))
-             (== q `(int ,x))]))]
+            [(== p `(+ 0 ,x))
+             (== q `,x)]
+            [(== p `(+ ,x 0))
+             (== q `,x)]))]
    [(fresh (x)
-           (== p `(- (int ,x) (int ())))
-           (== q `(int ,x)))]
+           (== p `(- ,x 0))
+           (== q `,x))]
    [(fresh (x)
            (conde
-            [(== p `(* (int (1)) (int ,x)))
-             (== q `(int ,x))]
-            [(== p `(* (int ,x) (int (1))))
-             (== q `(int ,x))]))]
+            [(== p `(* 1 ,x))
+             (== q `,x)]
+            [(== p `(* ,x 1))
+             (== q `,x)]))]
    ;; Zero laws
    [(fresh (p^)
            (conde
@@ -137,15 +155,15 @@ bexp := true | false
              (== q 'true)]))]
    [(fresh (p^)
            (conde
-            [(== p `(* (int ()) (int ,p^)))
-             (== q (int 0))]
-            [(== p `(* (int ,p^) (int ())))
-             (== q (int 0))]))]
+            [(== p `(* 0 p^))
+             (== q 0)]
+            [(== p `(* p^ 0))
+             (== q 0)]))]
    ;; Prefer greater over geq
    [(fresh (x n1 n2)
-           (== p `(>= (int ,x) (int ,n1)))
-           (== q `(>  (int ,x) (int ,n2)))
-           (minuso n1 (build-num 1) n2))]
+           (== p `(>= ,x ,n1))
+           (== q `(>  ,x ,n2))
+           (minuso n1 1 n2))]
    ;; Simplify conjunctions of comparisons
    ;; TODO: Obviously, there can be more such rules, do we need them?
    ;; TODO: Do we need both >=/> and <=/<?
@@ -167,59 +185,59 @@ bexp := true | false
    |#
    ;; Simplification
    [(fresh (x n m k)
-           (== p `(= (+ ,x (int ,n)) (int ,m)))
-           (== q `(= ,x (int ,k)))
+           (== p `(= (+ ,x ,n) ,m))
+           (== q `(= ,x ,k))
            (symbolo x)
            (minuso m n k))]
    ;; Constant folding
    [(fresh (x y)
-           (== p `(= (int ,x) (int ,y)))
+           (== p `(= ,x ,y))
            (conde
-            [(== x y) (== q 'true)]
-            [(=/= x y) (== q 'false)]))]
+            [(== `,x `,y) (== q 'true)]
+            [(=/= `,x `,y) (== q 'false)]))]
    [(fresh (x y)
-           (== p `(> (int ,x) (int ,y)))
+           (== p `(> ,x ,y))
            (conde
-            [(<o y x) (== q 'true)]
-            [(<=o x y) (== q 'false)]))]
+            [(<o `,y `,x) (== q 'true)]
+            [(<=o `,x `,y) (== q 'false)]))]
    [(fresh (x y)
-           (== p `(>= (int ,x) (int ,y)))
+           (== p `(>= ,x ,y))
            (conde
-            [(<=o y x) (== q 'true)]
-            [(<o x y) (== q 'false)]))]
+            [(<=o `,y `,x) (== q 'true)]
+            [(<o `,x `,y) (== q 'false)]))]
    [(fresh (x n1 n2 n3)
-           (== p `(> (- (int ,x) (int n1)) (int ,n2)))
-           (== q `(> (int ,x) (int ,n3)))
+           (== p `(> (- ,x ,n1) ,n2))
+           (== q `(> ,x ,n3))
            (pluso n1 n2 n3))]
    [(fresh (x n1 n2)
-           (== p `(∧ (> (int ,x) (int ,n1) (¬ (> (int ,x) (int ,n2))))))
-           (== q `(= (int ,x) (int ,n2)))
-           (pluso n1 (build-num 1) n2))]
+           (== p `(∧ (> ,x ,n1 (¬ (> ,x ,n2)))))
+           (== q `(= ,x ,n2))
+           (pluso n1 1 n2))]
    [(fresh (x n1 n2 n3)
-           (== p `(∧ (> (int ,x) (int ,n1)) (> (int ,x) (int ,n2))))
-           (== q `(> (int ,x) (int ,n3)))
+           (== p `(∧ (> ,x ,n1) (> ,x ,n2)))
+           (== q `(> ,x ,n3))
            (maxo n1 n2 n3))]
    [(fresh (x n1 n2 n3)
-           (== p `(> (+ (int ,x) (int ,n1)) (int ,n2)))
-           (== q `(> (int ,x) (int ,n3)))
+           (== p `(> (+ ,x ,n1) ,n2))
+           (== q `(> ,x ,n3))
            (minuso n2 n1 n3))]
    [(fresh (x y)
-           (== p `(>= (- (int ,x) (int ,y)) ,(int 0)))
-           (== q `(>= (int ,x) (int ,y))))]
+           (== p `(>= (- ,x ,y) 0))
+           (== q `(>= ,x ,y)))]
    #| -1 is not expressible
    [(fresh (x y)
-           (== p `(> (- ,x ,y) (int -1)))
+           (== p `(> (- ,x ,y) -1))
            (== q `(>= ,x ,y)))]
    |#
    [(fresh (x y z)
-           (== p `(+ (* (+ (int ,x) ,(int 1)) (int ,y)) (- (int ,z) (int ,y))))
-           (== q `(+ (* (int ,x) (int ,y)) (int ,z))))]))
+           (== p `(+ (* (+ ,x 1) ,y) (- ,z ,y)))
+           (== q `(+ (* ,x ,y) ,z)))]))
 
 (define (substo* p x t q)
   (conde
    ;;[(== p q) (numbero p)]
    [(fresh (n)
-           (== p `(int ,n))
+           (== p `,n)
            (== q p))]
    [(symbolo p)
     (== p x)
@@ -308,8 +326,9 @@ bexp := true | false
 
 (define (into e)
   (fresh (x)
-         (== e `(int ,x))
-         (listof01o x)))
+         (== e x)
+         (numbero x)
+        ))
 
 (define (aexpo e)
   (conde
@@ -353,7 +372,8 @@ bexp := true | false
                   (== com `(,x := ,e))
                   (varo x)
                   (aexpo e)
-                  (substo q x e p))]
+                  (substo q x e p)
+        )]
           [(fresh (cnd thn els)
                   (== com `(if ,cnd ,thn ,els))
                   (proveo `(∧ ,p ,cnd) thn q)
