@@ -96,3 +96,12 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         time scheme --script tests/cvc5-test.scm   
+
+    - name: Run Hoare Logic on z3
+      if: runner.os == 'macOS'
+      run: |
+        time chez --script test-implieso.scm
+        time chez --script test-normo.scm
+        time chez --script test-syntax.scm 
+        time chez --script test-substo.scm
+        time chez --script test-hoare.scm
