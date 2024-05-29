@@ -301,14 +301,14 @@ bexp := true | false
            (== q `(>= ,x ,m))
            (<=o m n))]))
 
+;; just throw it to the solver
 (define (implieso p q)
-  (fresh (r t)
-         (⇓o p r)
-         (⇓o q t)
-         (implieso* r t)))
+    (z/assert `(=> ,p ,q))
+)
 
 ;; Equivalent up to normalization
-(define (equivo p q) (⇓o p q))
+;; use SMT to rewrite
+(define (equivo p q)  (z/assert `(and (=> ,p ,q) (=> ,q ,p)) ))
 
 ;; p[x -> t] = q
 (define (substo p x t q)
