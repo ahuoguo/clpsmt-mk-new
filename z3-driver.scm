@@ -3,7 +3,7 @@
 (define z3-counter-check-sat 0)
 (define z3-counter-get-model 0)
 
-(define log-all-calls #f)
+(define log-all-calls #t)
 
 (define read-sat
   (lambda (fn)
